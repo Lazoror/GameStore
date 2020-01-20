@@ -1,0 +1,43 @@
+﻿@model GameStore.Web.ViewModels.Genre.GenreViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>@Resources.Create</h2>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4 create-genre-wrapper">
+        <form asp-action="Create" asp-controller="Genre">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label>@Resources.Name (@Resources.English)</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>@Resources.Name (@Resources.Russian)</label>
+                <input asp-for="NameRu" class="form-control" />
+                <span asp-validation-for="NameRu" class="text-danger"></span>
+            </div>
+            <label>@Resources.ParentGenre</label>
+            <div class="select-genres-dropdown">
+                @Html.DropDownList(nameof(Model.ParentGenre), new SelectList(@Model.AllGenres), "None",
+                    new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-dark" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="back-link">
+    <a asp-action="Index">@Resources.BackToList</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

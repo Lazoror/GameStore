@@ -1,0 +1,41 @@
+﻿@model IEnumerable<GameStore.Web.ViewModels.Genre.GenreViewModel>
+@{ ViewData["Title"] = "Index"; }
+
+<h2>@Resources.Genres</h2>
+
+<p>
+    <a asp-action="Create" asp-controller="Genre" class="btn">@Resources.Create</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Resources.Name
+            </th>
+            <th>
+                @Resources.ParentGenre
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ParentGenre)
+                </td>
+                <td>
+                    @Html.ActionLink(Resources.Edit, "Edit", "Genre", new
+                    {
+                        genreName = item.Name
+                    }) | @Html.ActionLink(Resources.Delete, "Delete", "Genre", new { genreName = item.Name })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

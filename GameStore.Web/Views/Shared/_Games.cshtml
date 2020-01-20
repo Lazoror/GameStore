@@ -1,0 +1,236 @@
+﻿@model GameStore.Domain.Models.SqlModels.FilterModels.GamesFilters
+@using GameStore.Domain.Models.SqlModels.FilterModels
+@using Newtonsoft.Json
+
+@{
+    int releaseDate = (int)Model.Filters.ReleaseDate;
+    int sortType = (int)Model.Filters.SortType;
+
+    var itemsPerPage = new List<string>
+{
+        "10",
+        "20",
+        "50",
+        "100",
+        "all"
+    };
+
+    var action = ViewContext.RouteData.Values["Action"].ToString();
+}
+
+<div id="page-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="title-game">
+                    <p>@Resources.Games</p>
+                </div>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+
+                    <span class="create-game"><a asp-action="Create" class="btn">@Resources.CreateGame</a></span>
+
+                }
+                <div class="search-form">
+                    <form asp-controller="Game" asp-action="Index" method="get">
+                        <input type="text" name="@nameof(Model.Filters.SearchString)" placeholder="@Resources.SearchGame" pattern=".{3,}" required title="3 characters minimum" class="form-control game-search" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-8">
+
+                @if (User.IsInRole("Administrator"))
+                {
+                    <div>
+                        @Html.ActionLink(Resources.ManageUsers, "ManageUsers", "Administration", new { }, new { @class = "btn btn-dark" })
+                        @Html.ActionLink(Resources.ManageRoles, "ManageRoles", "Administration", new { }, new { @class = "btn btn-dark" })
+                    </div>
+                }
+
+                <div id="game-outlinee">
+                    @await Html.PartialAsync("_GamesList", Model)
+                </div>
+
+            </div>
+            <div class="col-md-4">
+                <form asp-action="Index" asp-controller="Game" method="get" id="filterForm">
+                    <div class="sidebar-title">
+                        <p>Refine Results</p>
+                    </div>
+                    <div class="sidebar">
+                        <div class="sidebar-sorting">
+                            <p class="sort-title">@Resources.Sorting</p>
+                            <hr />
+                            <select name="@nameof(Model.Filters.SortType)" asp-items="Html.GetEnumSelectList<SortType>()" id="sort-type" class="form-control"></select>
+                        </div>
+
+                        <div class="sidebar-price-range">
+                            <p class="sort-title">@Resources.PriceRange</p>
+                            <hr />
+
+                            <div class="price-range-left">
+                                <p>@Resources.From</p>
+                                <input type="number" name="@nameof(Model.Filters.PriceFrom)" value="@Model.Filters.PriceFrom" min="0" step="0.01" id="priceFrom" class="form-control" />
+                            </div>
+                            <div class="price-range-right">
+                                <p>@Resources.To</p>
+                                <input type="number" name="@nameof(Model.Filters.PriceTo)" value="@Model.Filters.PriceTo" step="0.01" id="priceTo" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="sidebar-publisher">
+                            <p class="sort-title">@Resources.Publishers</p>
+                            <hr />
+
+                            <div class="publisher-list">
+                                @foreach (string publisher in Model.DefaultValues.Publishers)
+                                {
+                                    <div class="publisher">
+                                        @if (Model.Filters.Publishers != null && Model.Filters.Publishers.Contains(publisher))
+                                        {
+                                            <input type="checkbox" name="@nameof(Model.Filters.Publishers)" value="@publisher" checked />
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" name="@nameof(Model.Filters.Publishers)" value="@publisher" />
+                                        }
+
+                                        <label>@publisher</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="sidebar-release-date">
+                            <p class="sort-title">@Resources.ReleaseDate</p>
+                            <hr />
+
+                            <select name="@nameof(Model.Filters.ReleaseDate)" asp-items="Html.GetEnumSelectList<ReleaseDate>()" id="release-date" class="form-control"></select>
+                        </div>
+
+                        <div class="sidebar-genres">
+                            <p class="sort-title">@Resources.Genres</p>
+                            <hr />
+
+                            @foreach (string genre in Model.DefaultValues.Genres)
+                            {
+                                <div class="sidebar-genre">
+
+                                    @if (Model.Filters.Genres != null && Model.Filters.Genres.Contains(genre))
+                                    {
+                                        <input type="checkbox" name="@nameof(Model.Filters.Genres)" value="@genre" checked />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" name="@nameof(Model.Filters.Genres)" value="@genre" />
+                                    }
+
+                                    <label>@genre</label>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="sidebar-platforms">
+                            <p class="sort-title">@Resources.Platforms</p>
+                            <hr />
+
+                            @foreach (string platform in Model.DefaultValues.Platforms)
+                            {
+                                <div class="sidebar-platform">
+
+                                    @if (Model.Filters.Platforms != null && Model.Filters.Platforms.Contains(platform))
+                                    {
+                                        <input type="checkbox" name="@nameof(Model.Filters.Platforms)" value="@platform" checked />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" name="@nameof(Model.Filters.Platforms)" value="@platform" />
+                                    }
+
+                                    <label>@platform</label>
+                                </div>
+                            }
+
+                        </div>
+
+                        @if (!String.IsNullOrEmpty(Model.Filters.SearchString))
+                        {
+                            <input type="hidden" name="@nameof(Model.Filters.SearchString)" value="@Model.Filters.SearchString" />
+                        }
+
+                        <input type="hidden" name="@nameof(Model.Filters.CurrentPage)" value="" id="currentPage" />
+                        <input type="hidden" name="@nameof(Model.Filters.ItemsPerPage)" value="@Model.Filters.ItemsPerPage" id="items-per-page" />
+
+                        <input type="button" name="sumbit" value="@Resources.Filter" class="btn" id="filter-btn" />
+                    </div>
+                    <div class="pagging">
+                        @for (int i = 1; i <= Model.Filters.TotalPages; i++)
+                        {
+                            if (i != Model.Filters.CurrentPage)
+                            {
+                                <input type="button" value="@i" name="@nameof(Model.Filters.CurrentPage)" class="" id="pagging-btn" />
+                            }
+                            else
+                            {
+                                <input type="button" value="@i" name="@nameof(Model.Filters.CurrentPage)" class="active" id="pagging-btn" />
+                            }
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+
+            <div class="pagination-items">
+                <span>@Resources.ItemsPerPage</span>
+                <form asp-controller="Game" asp-action="Index" method="get" id="pagination-items">
+                    <select name="@nameof(Model.Filters.ItemsPerPage)" class="form-control d-inline-block w-auto">
+
+                        @foreach (string item in itemsPerPage)
+                        {
+                            if (item == Model.Filters.ItemsPerPage.ToString())
+                            {
+                                if (item == "all")
+                                {
+                                    <option value="@int.MaxValue" selected>@item</option>
+                                }
+                                else
+                                {
+                                    <option value="@item" selected>@item</option>
+                                }
+
+                            }
+                            else
+                            {
+                                if (item == "all")
+                                {
+                                    <option value="@int.MaxValue">@item</option>
+                                }
+                                else
+                                {
+                                    <option value="@item">@item</option>
+                                }
+                            }
+                        }
+                    </select>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/gameDetails.js"></script>
+
+<script>
+    SetFilterGames(@releaseDate, @sortType, '@(JsonConvert.SerializeObject(@Model.Filters))');
+</script>

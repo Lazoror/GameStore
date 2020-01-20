@@ -1,0 +1,91 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="EntityConfigurations\Comment\**" />
+    <Compile Remove="EntityConfigurations\Genre\**" />
+    <Compile Remove="EntityConfigurations\Platform\**" />
+    <Compile Remove="EntityConfigurations\Publisher\**" />
+    <Compile Remove="Repository\**" />
+    <EmbeddedResource Remove="EntityConfigurations\Comment\**" />
+    <EmbeddedResource Remove="EntityConfigurations\Genre\**" />
+    <EmbeddedResource Remove="EntityConfigurations\Platform\**" />
+    <EmbeddedResource Remove="EntityConfigurations\Publisher\**" />
+    <EmbeddedResource Remove="Repository\**" />
+    <None Remove="EntityConfigurations\Comment\**" />
+    <None Remove="EntityConfigurations\Genre\**" />
+    <None Remove="EntityConfigurations\Platform\**" />
+    <None Remove="EntityConfigurations\Publisher\**" />
+    <None Remove="Repository\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20190930080200_HotFix1.cs" />
+    <Compile Remove="Migrations\20190930080200_HotFix1.Designer.cs" />
+    <Compile Remove="Migrations\20191001130807_PublisherIdInGameNullable.cs" />
+    <Compile Remove="Migrations\20191001130807_PublisherIdInGameNullable.Designer.cs" />
+    <Compile Remove="Migrations\20191009125106_PublisherLangEntityAdded.cs" />
+    <Compile Remove="Migrations\20191009125106_PublisherLangEntityAdded.Designer.cs" />
+    <Compile Remove="Migrations\20191009161602_PlatformLangEntityAdded.cs" />
+    <Compile Remove="Migrations\20191009161602_PlatformLangEntityAdded.Designer.cs" />
+    <Compile Remove="Migrations\20191009163402_PlatformIdLangEntityChanged.cs" />
+    <Compile Remove="Migrations\20191009163402_PlatformIdLangEntityChanged.Designer.cs" />
+    <Compile Remove="Migrations\20191009163651_AddedPlatformLanguageConfiguration.cs" />
+    <Compile Remove="Migrations\20191009163651_AddedPlatformLanguageConfiguration.Designer.cs" />
+    <Compile Remove="Migrations\20191009163837_AddedPlatformLanguageConfigurationFix.cs" />
+    <Compile Remove="Migrations\20191009163837_AddedPlatformLanguageConfigurationFix.Designer.cs" />
+    <Compile Remove="Migrations\20191009163948_PlatformLanguageConfigurationChangedName.cs" />
+    <Compile Remove="Migrations\20191009163948_PlatformLanguageConfigurationChangedName.Designer.cs" />
+    <Compile Remove="Migrations\20191009164048_PlatformLanguageConfigurationFixed.cs" />
+    <Compile Remove="Migrations\20191009164048_PlatformLanguageConfigurationFixed.Designer.cs" />
+    <Compile Remove="Migrations\20191010084204_AddedGenreAndGameLangEntities.cs" />
+    <Compile Remove="Migrations\20191010084204_AddedGenreAndGameLangEntities.Designer.cs" />
+    <Compile Remove="Migrations\20191010094558_FixedTableNames.cs" />
+    <Compile Remove="Migrations\20191010094558_FixedTableNames.Designer.cs" />
+    <Compile Remove="Migrations\20191010094715_AddedGenreAndGameLangEntities.cs" />
+    <Compile Remove="Migrations\20191010094715_AddedGenreAndGameLangEntities.Designer.cs" />
+    <Compile Remove="Migrations\20191011142717_DatabaseHotFix.cs" />
+    <Compile Remove="Migrations\20191011142717_DatabaseHotFix.Designer.cs" />
+    <Compile Remove="Migrations\20191017133236_ChangeLanguageAndPlatformTableNames.cs" />
+    <Compile Remove="Migrations\20191017133236_ChangeLanguageAndPlatformTableNames.Designer.cs" />
+    <Compile Remove="Migrations\20191017134108_ChangeLanguageAndPlatformTableNames.cs" />
+    <Compile Remove="Migrations\20191017134108_ChangeLanguageAndPlatformTableNames.Designer.cs" />
+    <Compile Remove="Migrations\20191017134304_AddedChangesToEntities.cs" />
+    <Compile Remove="Migrations\20191017134304_AddedChangesToEntities.Designer.cs" />
+    <Compile Remove="Migrations\20191017135342_PlatformTypeRenamedToPlatform.cs" />
+    <Compile Remove="Migrations\20191017135342_PlatformTypeRenamedToPlatform.Designer.cs" />
+    <Compile Remove="Migrations\20191010151800_AddedGameStateEntityForViewCountAndComments.cs" />
+    <Compile Remove="Migrations\20191010151800_AddedGameStateEntityForViewCountAndComments.Designer.cs" />
+    <Compile Remove="Migrations\20191010154103_InitDatabaseFix.cs" />
+    <Compile Remove="Migrations\20191010154103_InitDatabaseFix.Designer.cs" />
+    <Compile Remove="Migrations\20191031134458_UpdatedOrderDetailModel.cs" />
+    <Compile Remove="Migrations\20191031134458_UpdatedOrderDetailModel.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.3" />
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
+    <PackageReference Include="MongoDB.Driver" Version="2.9.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GameStore.Domain\GameStore.Domain.csproj" />
+    <ProjectReference Include="..\GameStore.Interfaces\GameStore.Interfaces.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EntityConfigurations\LanguageEntities\" />
+    <Folder Include="MongoLogger\" />
+    <Folder Include="Repositories\MongoRepositories\" />
+    <Folder Include="Repositories\RepositoryFacades\" />
+    <Folder Include="Repositories\SqlRepositories\" />
+  </ItemGroup>
+
+</Project>

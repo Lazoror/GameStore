@@ -1,0 +1,26 @@
+﻿@using GameStore.Domain
+@model IEnumerable<GameStore.Web.ViewModels.Payment.OrderDetailViewModel>
+@{ ViewData["Title"] = "Index"; }
+
+@if (User.IsInRole(RoleName.Manager))
+{
+    <div class="manage-links">
+        @Html.ActionLink("Manage Orders", "ManageOrders", "Order", new { }, new { @class = "btn btn-dark" })
+        @Html.ActionLink("Order History", "History", "Order", new { }, new { @class = "btn btn-dark" })
+    </div>
+}
+
+
+<div id="basket-outline">
+    <div id="basket-field">
+        @await Html.PartialAsync("_BasketItems", Model)
+    </div>
+</div>
+
+<script src="~/js/basket.js"></script>
+
+<script>
+    RemoveItemBasket('@Url.Action("RemoveBasketItem", "Basket")');
+    MinusItemBasket('@Url.Action("ChangeQuantityBasketItem", "Basket")');
+    PlusItemBasket('@Url.Action("ChangeQuantityBasketItem", "Basket")');
+</script>

@@ -1,0 +1,225 @@
+﻿@using GameStore.Domain
+@using GameStore.Web.ViewModels.Comment
+@model GameStore.Web.ViewModels.Game.DisplayGameDetailsByKeyRequestModel
+@{
+    ViewData["Title"] = "DetailsByKey";
+
+    var count = Model.Comments.Comments.Count;
+    string commentsCount = "";
+    if (count % 2 == 0)
+    {
+        commentsCount = $"{@Model.Comments.Comments.Count} {Resources.CommentsGame}";
+    }
+    else
+    {
+        commentsCount = $"{@Model.Comments.Comments.Count} {Resources.CommentGame}";
+    }
+}
+
+
+
+<div class="row">
+    <div class="game-cart-controls-wrapper col-md-12">
+        @if (User.IsInRole(RoleName.Manager))
+        {
+            @if (!Model.GameViewModel.IsDeleted)
+            {
+                <div class="admin-controls">
+                    @Html.ActionLink(Resources.Publish, "Publish", "Game", new { gameKey = Model.GameKey }, new { @class = "btn btn-outline-primary publish-btn" })
+                    @Html.ActionLink(Resources.Edit, "Edit", "Game", new { gameKey = Model.GameKey }, new { @class = "btn btn-outline-primary" })
+                    @Html.ActionLink(Resources.Delete, "Delete", "Game", new { gameKey = Model.GameKey }, new { @class = "btn btn-outline-primary" })
+                </div>
+            }
+        }
+        <div class="back-link">
+            <img src="~/images/Arrow-left.svg" alt="Arrow left" />
+            <a asp-action="Index">@Resources.GoBacktoGameList</a>
+        </div>
+    </div>
+
+    <div class="game-slider-wrapper col-md-6">
+        <div class="game-slider">
+            <div class="slider" id="main-slider">
+                <div class="slider-wrapper">
+                    <div class="slide" id="slide-1" data-image="../images/csgo.jpg"></div>
+                    <div class="slide" id="slide-2" data-image="../images/csgo1.jpg"></div>
+                    <div class="slide" id="slide-3" data-image="../images/csgo1.jpg"></div>
+                </div>
+                <div class="slider-nav">
+                    <button class="slider-previous">Previous</button>
+                    <button class="slider-next">Next</button>
+                </div>
+                <div class="slider-pagination">
+                    <a href="#slide-1">1</a>
+                    <a href="#slide-2">2</a>
+                    <a href="#slide-3">3</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="game-details-wrapper col-md-6">
+        <div class="game-details">
+            <div class="game-name">
+                <p>@Html.DisplayFor(model => model.GameViewModel.Name)</p>
+            </div>
+            <div class="row">
+                <div class="game-price-wrapper col-md-6">
+                    <div class="game-price">
+                        <p>$@Html.DisplayFor(model => model.GameViewModel.Price)</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="game-ratings" id="game-ratings">
+                        <div class="game-stars-outline" id="game-stars-outline">
+                            @await Html.PartialAsync("_GameRating", Model.GameViewModel)
+                        </div>
+
+                        <div class="game-comments">@commentsCount</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="game-specific">
+            <div class="game-info">
+                <div class="game-publisher">
+                    @if (!String.IsNullOrEmpty(Model.GameViewModel.Publisher))
+                    {
+                        <p>@Html.ActionLink($"{Model.GameViewModel.Publisher}", "PublisherDetails", "Publisher", new { companyName = Model.GameViewModel.Publisher }, new { })</p>
+                    }
+                    else
+                    {
+                        <p>@Resources.Unknown</p>
+                    }
+
+                </div>
+                <div class="game-type">
+                    <p>Bundle</p>
+                </div>
+                <span class="vertical-divider">|</span>
+                <div class="game-released">
+
+                    <p>@Resources.ReleaseDate @Html.DisplayFor(model => model.GameViewModel.PublishDate)</p>
+                </div>
+            </div>
+
+            <div class="game-platforms">
+                <div class="platform-title">
+                    <p>@Resources.Playableon</p>
+                </div>
+                @if (Model.GameViewModel.GamePlatforms != null)
+                {
+                    foreach (string platform in Model.GameViewModel.GamePlatforms)
+                    {
+                        <span>@platform</span>
+                    }
+                }
+
+                @if (!Model.GameViewModel.GamePlatforms.Any())
+                {
+                    <span>Unknown</span>
+                }
+            </div>
+            <div class="game-size">
+                <div class="size-title">
+                    <p>@Resources.File_size</p>
+                </div>
+                <div class="size-info">
+                    <p>53.76 GB</p>
+                </div>
+            </div>
+            <div class="game-genres">
+                <div class="genre-title">
+                    <p>@Resources.Genres</p>
+                </div>
+                <div class="genre-info">
+                    @if (Model.GameViewModel.GameGenres != null && Model.GameViewModel.GameGenres.Any())
+                    {
+                        @foreach (string genre in Model.GameViewModel.GameGenres)
+                        {
+                            <div class="game-genre">
+                                <span>@genre</span>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>@Resources.Other</p>
+                    }
+
+                </div>
+            </div>
+            <div class="game-add-cart">
+                <form method="get" action="/game/@Model.GameKey/buy">
+                    <input type="hidden" name="gameKey" value="@Model.GameKey" />
+                    <input type="hidden" name="price" value="@Model.GameViewModel.Price" />
+
+                    <input type="submit" name="add" value="@Resources.AddToCart" class="btn" />
+                </form>
+            </div>
+        </div>
+
+        <div class="game-description">
+            <div class="game-get-info">
+                <div class="game-get-info-title">
+                    <h1>@Resources.WhatYouGet</h1>
+                </div>
+                <p>
+                    Purchase the Ace Combat 7: Skies Unknown Launch Edition, available
+                    until 2/18/2019, and get the following content:
+                </p>
+                <ul class="description-list">
+                    <li>Ace Combat 7: Skies Unknown;</li>
+                    <li>Ace Combat 5: The Unsung War;</li>
+                    <li>Playable F-4E Phantom II aircraft;</li>
+                    <li>
+                        3 popular aircraft skins from past titles (Su-37: Yellow 13, F-14D:
+                        Razgriz, F-15C).
+                    </li>
+                </ul>
+                <p>
+                    Purchase the Ace Combat 7: Skies Unknown Launch Edition, available
+                    until 2/18/2019, and get the following content:
+                </p>
+            </div>
+            <div class="game-description-info">
+                <div class="game-description-info-title">
+                    <h1>@Resources.GameDescription</h1>
+                </div>
+                <div class="game-description-body">
+                    <p>
+                        @Html.DisplayFor(model => model.GameViewModel.Description)
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="game-comments-wrapper col-md-12">
+        <div class="game-comments">
+            <h1>@commentsCount</h1>
+
+            <div class="comment-ratings">
+                @await Html.PartialAsync("_GameRating", Model.GameViewModel)
+                <div class="comment-rating">@Model.GameViewModel.Rating</div>
+            </div>
+            <div id="comments-wrapper">
+                <div id="comments-outline">
+                    @await Html.PartialAsync("_GameComments", new DisplayCommentViewModel { Comments = Model.Comments.Comments, GameKey = Model.GameKey })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Slider.js"></script>
+<script src="~/js/gameDetails.js"></script>
+
+<script>
+    LoadComments('@Url.Action("Quote", "Comment")');
+    AddComment('@Url.Action("Add", "Comment")');
+    ChangeRating('@Url.Action("ChangeRating", "Game")');
+</script>

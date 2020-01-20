@@ -1,0 +1,38 @@
+﻿@model GameStore.Web.ViewModels.Platform.PlatformTypeViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>@Resources.Create</h2>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4 create-platform-wrapper">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label>@Resources.Type (@Resources.English)</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>@Resources.Type (@Resources.Russian)</label>
+                <input asp-for="NameRu" class="form-control" />
+                <span asp-validation-for="NameRu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="@Resources.Create" class="btn btn-dark" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="back-link">
+    <a asp-action="Index">@Resources.BackToList</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,99 @@
+﻿@model GameStore.Web.ViewModels.Game.GameViewModel
+
+@{
+    ViewData["Title"] = Resources.Edit;
+}
+
+<h2>@Resources.Change</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4 edit-game-wrapper">
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label>@Resources.Name (@Resources.English)</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>@Resources.Name (@Resources.Russian)</label>
+                <input asp-for="NameRu" class="form-control" />
+                <span asp-validation-for="NameRu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>@Resources.Description (@Resources.English)</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>@Resources.Name (@Resources.Russian)</label>
+                <input asp-for="DescriptionRu" class="form-control" />
+                <span asp-validation-for="DescriptionRu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>@Resources.Price</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>@Resources.UnitsInStock</label>
+                <input asp-for="UnitsInStock" class="form-control" />
+                <span asp-validation-for="UnitsInStock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>@Resources.Discontinued</label>
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Discontinued" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="select-genres">
+                <select id="Platforms" multiple="multiple" name="@nameof(Model.GamePlatforms)" class="form-control">
+                    @foreach (string platform in Model.GamePlatforms)
+                    {
+                        <option value="@platform">@platform</option>
+                    }
+                </select>
+            </div>
+
+            <div class="select-genres">
+                <select id="Genres" multiple="multiple" name="@nameof(Model.GameGenres)" class="form-control">
+                    @foreach (string genre in Model.GameGenres)
+                    {
+                        <option value="@genre">@genre</option>
+                    }
+                </select>
+            </div>
+
+            <div class="select-publisher">
+
+                <select name="@nameof(Model.Publisher)" class="form-control">
+                    <option value="">None</option>
+                    @foreach (string publisher in Model.Publishers)
+                    {
+                        <option value="@publisher">@publisher</option>
+                    }
+
+                </select>
+            </div>
+
+            <input type="hidden" name="@nameof(Model.Publisher)" value="@Model.Publisher" />
+            <input type="hidden" name="@nameof(Model.Key)" value="@Model.Key" />
+            <div class="form-group">
+                <input type="submit" value="@Resources.Change" class="btn btn-dark" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="back-link">
+    <a asp-action="Index">@Resources.BackToList</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

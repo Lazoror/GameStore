@@ -1,0 +1,38 @@
+﻿@model GameStore.Domain.Models.SqlModels.FilterModels.GamesFilters
+
+<div class="row">
+    @foreach (var item in Model.Games)
+    {
+        <div class="col-md-3 col-sm-12 col-12">
+            <div class="game-list-cart">
+                <div class="game-img">
+                    <a href="@Url.Action("GetDetails", "Game", new {gameKey = item.Key})">
+                        <img src="/images/gamepic.png" alt="Game picture" class="img-fluid img-game" />
+                    </a>
+                </div>
+                <div class="game-list-desc">
+                    <div class="game-list-name">
+                        @Html.ActionLink(item.Name, "GetDetails", "Game", new { gameKey = item.Key })
+                    </div>
+                    <div class="game-list-genre">
+                        @foreach (string genre in item.GameGenres.Select(g => g.Genre.Name))
+                        {
+                            <span>@genre</span>
+
+                        }
+
+                        @if (item.GameGenres == null || !item.GameGenres.Any())
+                        {
+                            <span>Other</span>
+                        }
+
+                    </div>
+                    <div class="game-list-price">
+                        <span>$ @Html.DisplayFor(a => item.Price)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

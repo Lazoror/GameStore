@@ -1,0 +1,31 @@
+﻿@model GameStore.Domain.Models.SqlModels.FilterModels.GamesFilters
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_Layout";
+
+    int releaseDate = (int)Model.Filters.ReleaseDate;
+    int sortType = (int)Model.Filters.SortType;
+
+    var itemsPerPage = new List<string>
+{
+        "10",
+        "20",
+        "50",
+        "100",
+        "all"
+    };
+
+    var action = ViewContext.RouteData.Values["Action"].ToString();
+
+}
+
+<div id="game-outline">
+    @await Html.PartialAsync("_Games", Model)
+</div>
+
+<script src="~/js/filter.js"></script>
+
+<script>
+    Filter('@Url.Action("GetGameList", "Game")');
+</script>

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<GameStore.Web.ViewModels.Platform.PlatformTypeViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>@Resources.Platforms</h2>
+
+<p>
+    <a asp-action="Create" asp-controller="Platform" class="btn btn-outline-primary">@Resources.Create</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Resources.Type
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink(Resources.Delete, "Delete", "Platform", new { platformName = item.Name }, new { }) |
+                    @Html.ActionLink(Resources.Edit, "Edit", "Platform", new { platformName = item.Name }, new { })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

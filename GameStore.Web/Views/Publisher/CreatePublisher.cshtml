@@ -1,0 +1,58 @@
+﻿@model GameStore.Web.ViewModels.Publisher.PublisherViewModel
+
+@{
+    ViewData["Title"] = "CreatePublisher";
+}
+
+<h2>@Resources.Create</h2>
+
+<h4>@Resources.Publisher</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4 create-publisher-wrapper">
+        <form asp-action="CreatePublisher">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label>Company Name</label>
+                <input asp-for="CompanyName" class="form-control" />
+                <span asp-validation-for="CompanyName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Название компании</label>
+                <input asp-for="CompanyNameRu" class="form-control" />
+                <span asp-validation-for="CompanyNameRu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Описание</label>
+                <input asp-for="DescriptionRu" class="form-control" />
+                <span asp-validation-for="DescriptionRu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>HomePage</label>
+                <input asp-for="HomePage" class="form-control" />
+                <span asp-validation-for="HomePage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Домашняя страница</label>
+                <input asp-for="HomePageRu" class="form-control" />
+                <span asp-validation-for="HomePageRu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="@Resources.Create" class="btn btn-dark" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="back-link">
+    <a asp-action="Index">@Resources.BackToList</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

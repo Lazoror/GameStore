@@ -1,0 +1,55 @@
+﻿@model GameStore.Web.ViewModels.Publisher.PublisherViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>@Resources.Edit</h1>
+
+<h4>@Resources.Publisher</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4 edit-publisher-wrapper">
+        <form asp-action="Edit">
+            <div class="form-group">
+                <label>@Resources.CompanyName (@Resources.English)</label>
+                <input asp-for="CompanyName" class="form-control" />
+                <span asp-validation-for="CompanyName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>@Resources.CompanyName (@Resources.Russian)</label>
+                <input asp-for="CompanyNameRu" class="form-control" />
+                <span asp-validation-for="CompanyNameRu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>@Resources.Description (@Resources.English)</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>@Resources.Description (@Resources.Russian)</label>
+                <input asp-for="DescriptionRu" class="form-control" />
+                <span asp-validation-for="DescriptionRu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>@Resources.HomePage (@Resources.English)</label>
+                <input asp-for="HomePage" class="form-control" />
+                <span asp-validation-for="HomePage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>@Resources.HomePage (@Resources.Russian)</label>
+                <input asp-for="HomePageRu" class="form-control" />
+                <span asp-validation-for="HomePageRu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="@nameof(Model.OldCompanyName)" value="@Model.OldCompanyName" />
+                <input type="submit" value="@Resources.Change" class="btn btn-dark" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="back-link">
+    <a asp-action="Index">@Resources.BackToList</a>
+</div>
+

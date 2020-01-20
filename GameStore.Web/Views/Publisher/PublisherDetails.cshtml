@@ -1,0 +1,43 @@
+﻿@using GameStore.Domain
+@model GameStore.Web.ViewModels.Publisher.PublisherViewModel
+@{ ViewData["Title"] = "PublisherDetails"; }
+
+<h2>@Resources.Publisher</h2>
+
+<div class="publisher-details-wrapper">
+    <h4>@Resources.Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Resources.CompanyName
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CompanyName)
+        </dd>
+        <dt>
+            @Resources.Description
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Resources.HomePage
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.HomePage)
+        </dd>
+    </dl>
+</div>
+
+@if (User.IsInRole(RoleName.Manager))
+{
+    <div class="link-container">
+        @Html.ActionLink(Resources.Delete, "Delete", "Publisher", new { companyName = Model.CompanyName }, new { @class = "btn btn-outline-primary" })
+        @Html.ActionLink(Resources.Edit, "Edit", "Publisher", new { companyName = Model.CompanyName }, new { @class = "btn btn-outline-primary" })
+    </div>
+}
+
+<div class="back-link">
+    <a asp-action="Index">@Resources.BackToList</a>
+</div>
+
